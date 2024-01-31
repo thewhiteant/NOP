@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+    <meta charset = "UTF-8">
+    <meta http-equiv = "X-UA-Compitable" content = "IE=edge">
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+    <title> Login </title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 85vh;
+            margin: 0;
+        }
+
+        .login-container {
+            text-align: center;
+        }
+        .center-button {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <center> 
+        <h3> Login Here </h3>
+        <form action = "login.php" method = "post">
+            <table>
+                <tr>
+                    <td> Username : </td>
+                    <td>
+                        <input type="text" name = "user">
+                    </td>
+                </tr>
+                <tr>
+                    <td> Password : </td>
+                    <td>
+                        <input type="password" name = "user_pass">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <td class="center-button" colspan="2">
+                            <input type="submit" name = "submit" value = "login">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <td class="center-button" colspan="2">
+                             Not a member ? <a href = " "> Register </a>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </center>
+</body>
+</html>

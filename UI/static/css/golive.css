@@ -1,0 +1,14 @@
+
+body{
+    display: flex;
+    justify-content: center;
+    background-image: url(../static/css/images/bg.jpg);
+
+}
+.container{
+
+    margin-top: 50px;
+    height: 80vh;
+    width: 80%;
+
+}

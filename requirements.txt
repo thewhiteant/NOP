@@ -1,0 +1,5 @@
+flask
+Flask-SQLAlchemy
+tinydb
+face_recognition
+opencv-python

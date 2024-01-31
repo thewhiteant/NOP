@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang = 'en'>
+<head>
+    <meta charset = "UTF-8">
+    <meta http-equiv = "X-UA-Compitable" content = "IE=edge">
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detail.css') }}">
+    <!-- <link rel="stylesheet" href="detail.css"> -->
+    <title> Details </title>
+
+
+
+
+
+</head>
+<body>
+  <form  {% if loc !=""  %} action = "/faces/add_face_already_success" {% else %}   action="/faces/add_face_success"  {% endif %}  method="POST"  enctype="multipart/form-data">  
+
+    <div class="container-fluid shadow">
+        <div class="card" style="width: 8rem;">
+            <img class="card-img-top cinmg"  id="profile" {% if loc !=""  %}  src="{{ url_for('static', filename='DB/imgs/' + id+'.jpg' ) }}"  {% endif %}  alt="No Image Selected"> 
+            <div class="card-body">
+              <h5 class="card-title"></h5>
+              <h5 class="card-text" style="text-align: center;">{{id}}</h5>
+            </div>
+        </div>
+        
+        <div class="iu">
+            <input  type="file" id="img" name="img"   {% if loc !=""  %}  disabled  {% else %} onchange="loadFile(event)"  required  {% endif %} > 
+        </div>
+
+
+          
+        <div class="input-group mb-3 xc" >
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">Name</span>
+            </div>
+            
+            <input type="text" class="form-control" id="myname"  name="myname" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Your name" required>
+            
+        </div>
+                  
+           
+          
+        <div class="input-group mb-3 xc">
+            <input type="text" class="form-control" name="emaill" id="emaill" placeholder="Your Email address" aria-label="Recipient's username" aria-describedby="basic-addon2" >  
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">@gmail.com</span>
+            </div>
+        </div>
+
+          
+          
+        <div class="input-group mb-3 xc">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">Phone</span>
+            </div>
+            <input type="text" class="form-control" name="phone" id="phone" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder=" Enter your Phone number" >
+        </div>
+
+        <div class="input-group mb-3 xc">
+          <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-default">Address</span>
+          </div>
+            <input type="text" class="form-control" id="Address" name="Address" aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder=" Address" >
+        </div>
+          
+          
+          
+        <div class="input-group xc">
+          <div class="input-group-prepend">
+              <span class="input-group-text">With textarea</span>
+          </div>
+            <textarea class="form-control" name ="note"  id="txt" aria-label="With textarea" placeholder="Note About Him" ></textarea>
+        </div>
+
+          <div class="buttons"> <button class="btn btn-danger btn-lg"  onclick="Clr()">Delete</button> <button class="btn btn-secondary btn-lg" onclick="openAndReadFile()">Save</button></div>
+                  
+    </div>
+
+      <input type="hidden"  name="Id" value="{{id}}">
+
+  </form>
+
+  
+
+
+<script>
+
+var loadFile = function(event) {
+      var reader = new FileReader();
+      reader.onload = function(){
+        var output = document.getElementById('profile');
+        output.src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+     
+};
+
+
+
+function Clr(){
+    var imgg = document.getElementById("img");
+    var nameInput = document.getElementById("myname");
+    var emailInput = document.getElementById("emaill");
+    var phoneInput = document.getElementById("phone");
+    var addressInput = document.getElementById("Address");
+    var txtInput = document.getElementById("txt");
+    var profileImage = document.getElementById("profile");
+    imgg.value = "";
+    nameInput.value = "";
+    emailInput.value = "";
+    phoneInput.value = "";
+    addressInput.value = "";
+    txtInput.value = "";
+    profileImage.src = "";
+         
+
+}
+
+
+</script>
+
+</body>
+</html>
+
+

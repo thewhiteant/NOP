@@ -1,0 +1,55 @@
+
+
+body{
+    background-color: rgba(224, 226, 216, 0.788) ;
+    
+}
+
+
+
+.container-fluid{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    width: 70%;
+    height: 90vh;
+    overflow: scroll;
+}
+
+.container-fluid::-webkit-scrollbar{
+    display: none;
+}
+
+  .container-fluid::-webkit-scrollbar {
+    width: 0 !important
+}
+
+
+
+
+.xc{
+    
+    width: 75%;
+    padding: 2px;
+    margin-top: 10px;
+    height: auto;
+}
+.card-text{
+    font-size: small;
+}
+
+.buttons{
+    margin-top: 20px;
+    
+}
+.btn{
+    margin: 40px;
+}
+
+.iu{
+    margin: 10px;
+}
