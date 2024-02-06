@@ -1,14 +1,12 @@
-from flask import Flask, render_template,request,redirect,url_for
+from flask import Flask, render_template,request,redirect,url_for,Response
+from flask_sqlalchemy import SQLAlchemy
 import datetime
 import os
 from helpers import idgenerator
-from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import func
 from werkzeug.datastructures import FileStorage
 import shutil
-
-
-
+from Dsystem import Vision
 
 
 
@@ -20,21 +18,22 @@ Saved_location = os.path.join(current_directory,'UI/static/DB/Saved_imgs')
 unknownLocations = os.path.join(current_directory,'UI/static/DB/imgs')
 
 
-
 if not os.path.exists(Saved_location):
     os.makedirs(Saved_location)
+
+if not os.path.exists(unknownLocations):
+    os.makedirs(unknownLocations)
 
 
 def UI():
 
-    print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] WebApplication Start.")
-
-  
+    print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] UI Check.")
     app = Flask(__name__)
-
 # DB Setup
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Main.db'
     db = SQLAlchemy(app)
+
+    
     class MainTable(db.Model):
         id = db.Column(db.Integer, primary_key=True)
         UIDs = db.Column(db.String(225))
@@ -51,8 +50,9 @@ def UI():
     with app.app_context():
          db.create_all()
 
-    @app.route('/')
+    @app.route('/') 
     def home():
+
         un_all_images = []
         un_face_names = []
         for filename in os.listdir(Saved_location):
@@ -61,16 +61,28 @@ def UI():
                     un_face_names.append(os.path.splitext(filename)[0])
         final_arr =  zip(un_all_images,un_face_names)
         final_arr = list(final_arr)        
-        return render_template('home.html',imglist = final_arr)
+        return render_template('home.html',imglist = final_arr,ck = Vision.Status_OF_Running)
         
     @app.route('/login')
     def login():
         return render_template('login.html')
 
+    @app.route('/start')
+    def StartFace_recgonition():
+        if  Vision.Status_OF_Running:
+            return "<script>alert('Already Running'); window.location.href = '/';</script>"
+        else:
+            Vision.Status_OF_Running = True
+            return redirect(url_for('home'))
 
-    @app.route('/')
-    def Add_User():
-        return render_template('adduser.html')
+
+    @app.route('/stop')
+    def Stop_Face_recognition():
+        if not Vision.Status_OF_Running:
+            return "<script>alert('Already Stopped'); window.location.href = '/';</script>"
+        else:
+            Vision.Status_OF_Running = False
+            return redirect(url_for('home'))
 
 
     @app.route('/faces')
@@ -90,11 +102,16 @@ def UI():
     def Details(ID):
         return render_template('details.html', iden = ID)
 
-
-    @app.route('/goLive')
+    @app.route('/live')
     def GO_live():
         return render_template('golive.html')
-    
+        
+    @app.route('/video_feed')
+    def video_feed():
+        # return Response(Vision.FD(), mimetype='multipart/x-mixed-replace; boundary=frame')
+        #TODO : Dengerous Lines
+         pass
+
 
     @app.route("/faces/add", methods=['POST','GET'] )
     def Face_add():
@@ -146,20 +163,17 @@ def UI():
                     chk = MainTable.query.filter_by(UIDs=idd).first()
                     if(not chk):
                         # TODO: Infuture face recognation fuction called for check face 
+                        new_iden = MainTable(UIDs=idd,Name=myname,Email=emaill,Phone=phone,Adress=addrs,Extra=extrea)
+                        db.session.add(new_iden)
                         try:
-                            new_iden = MainTable(UIDs=idd,Name=myname,Email=emaill,Phone=phone,Adress=addrs,Extra=extrea)
-                            db.session.add(new_iden)
                             db.session.commit()
-                        except Exception as e: 
-                            print(e)
-                            print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Databse Problem!")
-                    return redirect(url_for("home"))
+                        except Exception as e:
+                            db.session.rollback()
+                            print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Database Commit Error:", e)                        
+                        return redirect(url_for("home"))
 
-
-
-    app.run(debug=True)
 
     
 
 
-
+    app.run()

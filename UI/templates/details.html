@@ -28,7 +28,7 @@
         </div>
         
         <div class="iu">
-            <input  type="file" id="img" name="img"   {% if loc !=""  %}  disabled  {% else %} onchange="loadFile(event)"  required  {% endif %} > 
+            <input  type="file" id="img" name="img"  onchange="loadFile(event)"   {% if loc !=""  %}    {% else %}  required  {% endif %} > 
         </div>
 
 

@@ -19,18 +19,25 @@
 
         <div class="Right">
     
-                <div class="heading shadow">Control Panel <img class="align-middle" src="{{ url_for('static', filename='images/red.png') }}" width="13px" alt="liveimg"></div>
+                <div class="heading shadow">Control Panel <img class="align-middle"{% if ck %}  src="{{ url_for('static', filename='images/green.png') }}"  {% else %} src="{{ url_for('static', filename='images/red.png') }}"  {% endif%} width="13px" alt="liveimg"></div>
+                 <a href="/live">
                   <button type="button" class="btn btn-danger live btn-lg shadow-lg">Live</button>
-                 
+                 </a> 
                 <div class="holder1">
                   <a href="/faces/add"> <button type="button" class=" cat1 btn  btn-primary btn-lg shadow-lg  ">Add new</button></a>
                     <a href="/faces"> <button type="button" class="cat1 btn btn-primary btn-lg shadow-lg ">Faces</button></a>
                 </div>
-
+                  
                 <div class="holder2">
+                 <a href="/start">
                   <button type="button" class="cat2 btn btn-success btn-lg shadow-lg">Start</button>
+                 </a>
+                 <a href="/stop">
                   <button type="button" class="cat2 btn btn-danger  btn-lg shadow-lg">Stop</button>
+                 </a>
+                 <a href="/restart">
                   <button type="button" class="cat2 btn btn-primary btn-lg shadow-lg ">Restart</button>
+                 </a>
               </div>
                <button type="button" class="btn btn-secondary live btn-lg shadow-lg">Logs</button>
 

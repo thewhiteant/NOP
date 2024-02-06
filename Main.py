@@ -1,47 +1,22 @@
 from UI import app
-import os
 from Dsystem import Vision
 from threading import Thread
 import datetime
 
-
-
-reference_folder = 'UI/static/DB/imgs'
-current_directory = os.getcwd()
-addrees = os.path.join(current_directory,reference_folder)
-
-
-all_images = []
-face_names = []
-
-for filename in os.listdir(reference_folder):
-    if filename.endswith(".jpg") or filename.endswith(".png"):
-            all_images.append(filename)
-            face_names.append(os.path.splitext(filename)[0])
-
-
-
-def u():
+def run_ui():
     app.UI()
-def v():
-    Vision.FD(all_images,face_names,addrees)
 
+def run_face_recognition():
+    Vision.FD()
 
+# UIThre = Thread(target=run_ui)
+Face_Recognition_thread = Thread(target=run_face_recognition)
 
-ux = Thread(target=u)
-vs = Thread(target=v)
+Face_Recognition_thread.start()
+# UIThre.start()
 
-
-u()
-
-         
-# ux.start()
-# vs.start()
-
-
+# Wait for both threads to finish
+# UIThre.join()
+Face_Recognition_thread.join()
 
 print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Successfully Closed!")
-
-
-
-

@@ -1,5 +1,6 @@
-flask
+Flask
 Flask-SQLAlchemy
 tinydb
 face_recognition
 opencv-python
+
