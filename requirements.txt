@@ -1,6 +1,6 @@
 Flask
 Flask-SQLAlchemy
 tinydb
-face_recognition
 opencv-python
-
+face_recognition
+flask_socketio

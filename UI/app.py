@@ -7,6 +7,8 @@ from sqlalchemy.sql import func
 from werkzeug.datastructures import FileStorage
 import shutil
 from Dsystem import Vision
+import threading
+from flask_socketio import SocketIO
 
 
 
@@ -25,11 +27,17 @@ if not os.path.exists(unknownLocations):
     os.makedirs(unknownLocations)
 
 
+
+
 def UI():
 
     print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] UI Check.")
     app = Flask(__name__)
-# DB Setup
+    socketio = SocketIO(app)
+
+
+
+
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Main.db'
     db = SQLAlchemy(app)
 
@@ -173,7 +181,17 @@ def UI():
                         return redirect(url_for("home"))
 
 
-    
+                @socketio.on('connect')
+                def handle_connect():
+                    print('Client connected')
 
+                @socketio.on('disconnect')
+                def handle_disconnect():
+                    print('Client disconnected')
 
-    app.run()
+    Face_recog = threading.Thread(target=Vision.FD , args=(socketio,))
+    Face_recog.daemon = True
+    Face_recog.start()
+
+    socketio.run(app)
+
