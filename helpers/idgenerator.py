@@ -10,7 +10,7 @@ addrees = os.path.join(current_directory,reference_folder)
 
 db = TinyDB(addrees)
 query = Query()
-table = db.table("HashSavingtable")
+table = db.table("IDSavingtable")
 
 def GetId():
     dt = datetime.datetime.today()
@@ -48,4 +48,5 @@ def saveId(hash):
     dt = datetime.datetime.today()
     time = dt.strftime("%I:%M:%S")
     table.insert({'ID':hash,"Time":time})
+
 

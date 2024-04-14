@@ -33,10 +33,14 @@ faces = []
 face_names = []
 for filename in reference_faces:
             reference_face = face_recognition.load_image_file(os.path.join(reference_folder, filename))
-            Face_Encoding = face_recognition.face_encodings(reference_face)[0]
+            try:      
+                Face_Encoding = face_recognition.face_encodings(reference_face)[0]
+                faces.append(Face_Encoding)
+                face_names.append(os.path.splitext(filename)[0])
+                print(len(filename))
+            except:
+                print(filename)
 
-            faces.append(Face_Encoding)
-            face_names.append(os.path.splitext(filename)[0])
 
 
 
@@ -44,7 +48,7 @@ print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Images ready For recogn
 
 
 
-def FD(socketio):
+def FD(socketio=""):
     
     global Status_OF_Running
     if not Status_OF_Running  : return
@@ -57,10 +61,11 @@ def FD(socketio):
         if not ret:
             break
         
-        _,buffer = cv2.imencode(".jpg",frame)
-        bfreame = base64.b64encode(buffer).decode('utf-8')
-        socketio.emit("new_frame",{'image':bfreame})
-   
+        if socketio != "":
+            _,buffer = cv2.imencode(".jpg",frame)
+            bfreame = base64.b64encode(buffer).decode('utf-8')
+            socketio.emit("new_frame",{'image':bfreame})
+    
 
         face_locations = face_recognition.face_locations(frame) #gies multiple faces of frames
         face_encodings = face_recognition.face_encodings(frame,face_locations) # encode all of them

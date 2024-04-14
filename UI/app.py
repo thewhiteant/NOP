@@ -11,10 +11,6 @@ import threading
 from flask_socketio import SocketIO
 
 
-
-
-
-
 current_directory = os.getcwd()
 Saved_location = os.path.join(current_directory,'UI/static/DB/Saved_imgs')
 unknownLocations = os.path.join(current_directory,'UI/static/DB/imgs')
@@ -91,6 +87,13 @@ def UI():
         else:
             Vision.Status_OF_Running = False
             return redirect(url_for('home'))
+
+
+
+    @app.route('/timeline')
+    def Timeline():
+        return render_template('timeline.html')
+              
 
 
     @app.route('/faces')
@@ -188,6 +191,9 @@ def UI():
                 @socketio.on('disconnect')
                 def handle_disconnect():
                     print('Client disconnected')
+
+
+
 
     Face_recog = threading.Thread(target=Vision.FD , args=(socketio,))
     Face_recog.daemon = True

@@ -42,5 +42,6 @@ def Searchlog(day, tm=""):
 
 
 
-
+def Full_log_read():
+        print(db.all())
 
