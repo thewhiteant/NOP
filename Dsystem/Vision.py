@@ -56,7 +56,8 @@ def FD(socketio=""):
     
     cap = cv2.VideoCapture(0)
     while Status_OF_Running:
-    
+
+        print("Runnoing")
         ret, frame = cap.read()
         if not ret:
             break
@@ -115,16 +116,10 @@ def FD(socketio=""):
         
         sleep(0.05)  
     
-                  
-             
-                
-                
 
-                                                        
-                       
- 
     cap.release()
     cv2.destroyAllWindows()
+
 
 
 
