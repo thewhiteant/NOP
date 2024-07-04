@@ -6,8 +6,8 @@ from helpers.Logmanager import Full_log_read
 from helpers.db_manager import db, MainTable
 
 # Done 1: Start Stop Done
-# TODO 2: DBMS Funtions
-# TODO 3: Gather Under Same User Id 
+# Done 2: DBMS Funtions
+# Cancel 3: Gather Under Same User Id 
 # TODO 4: TimeLines
 
 

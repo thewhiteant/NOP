@@ -7,7 +7,7 @@ from werkzeug.datastructures import FileStorage
 from flask_socketio import SocketIO
 from helpers import idgenerator
 from Dsystem import Vision
-from helpers.db_manager import db, MainTable,get_user  # Import db and MainTable from database.py
+from helpers.db_manager import db, MainTable,get_user,delete_user_by_id # Import db and MainTable from database.py
 
 current_directory = os.getcwd()
 Saved_location = os.path.join(current_directory, 'UI/static/DB/Saved_imgs')
@@ -25,7 +25,7 @@ def UI():
     socketio = SocketIO(app)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Main.db'
-    app.config['DEBUG'] = True 
+    # app.config['DEBUG'] = True 
     db.init_app(app)  
 
     with app.app_context():
@@ -43,6 +43,8 @@ def UI():
         final_arr = zip(un_all_images, un_face_names)
         final_arr = list(final_arr)
         return render_template('home.html', imglist=final_arr, ck=Vision.Status_OF_Running)
+
+
 
     @app.route('/login')
     def login():
@@ -97,6 +99,14 @@ def UI():
         # TODO: Dangerous Lines
         pass
 
+    @app.route("/home/detele", methods=['POST', 'GET'])
+    def home_delete_item():
+        if request.method == "POST":
+            idd = request.form["delete_item"]
+            delete_user_by_id(idd)
+            return redirect(url_for('home'))
+
+
     @app.route("/faces/add", methods=['POST', 'GET'])
     def Face_add():
         if request.method == "POST":
@@ -105,6 +115,7 @@ def UI():
 
         IDGEN = idgenerator.GetIdGenNotSvae()
         return render_template("details.html", id=IDGEN, loc="")
+
 
     @app.route("/faces/add_face_success", methods=['POST', 'GET'])
     def add_DB():
@@ -123,7 +134,6 @@ def UI():
                     imge.save(os.path.join(Saved_location, f"{idd}.jpg"))
                     try:
                         new_iden = MainTable(UIDs=idd, Name=myname, Email=emaill, Phone=phone, Address=addrs, Extra=extrea)
-                        # idgenerator.UpdateData(new_iden.id(),idd)
                         db.session.add(new_iden)
                         db.session.commit()
                     except Exception as e:
@@ -146,7 +156,6 @@ def UI():
             if not chk:
                 # TODO: In future face recognition function called for check face
                 new_iden = MainTable(UIDs=idd, Name=myname, Email=emaill, Phone=phone, Address=addrs, Extra=extrea)
-                # idgenerator.UpdateData(new_iden.id(),idd)
                 db.session.add(new_iden)
                 try:
                     db.session.commit()
@@ -158,15 +167,10 @@ def UI():
     @socketio.on('connect')
     def handle_connect():
         print('Client connected')
-
+ 
     @socketio.on('disconnect')
     def handle_disconnect():
         print('Client disconnected')
-
-
-
-    
-
 
 
     Face_recog = threading.Thread(target=Vision.FD, args=(socketio,))

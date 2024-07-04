@@ -50,7 +50,3 @@ def saveId(hash):
     table.insert({'ID':hash,"Time":time,'userid':-1})
 
 
-
-def UpdateData(id, data):
-    table.update({'userid': id}, query.ID == data)
-    

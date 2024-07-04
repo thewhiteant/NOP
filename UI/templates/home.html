@@ -4,105 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/Main.css') }}">
-
-    <title>
-        SEye Home
-    </title>
-
+  <title>SEye Home</title>
 </head>
 <body>
   <div class="container-fluid">
     <div class="vertical-line"></div>
-
-        <div class="Right">
-    
-                <div class="heading shadow">Control Panel <img class="align-middle"{% if ck %}  src="{{ url_for('static', filename='images/green.png') }}"  {% else %} src="{{ url_for('static', filename='images/red.png') }}"  {% endif%} width="13px" alt="liveimg"></div>
-                 <a href="/live">
-                  <button type="button" class="btn btn-danger live btn-lg shadow-lg">Live</button>
-                 </a> 
-                <div class="holder1">
-                  <a href="/faces/add"> <button type="button" class=" cat1 btn  btn-primary btn-lg shadow-lg  ">Add new</button></a>
-                    <a href="/faces"> <button type="button" class="cat1 btn btn-primary btn-lg shadow-lg ">Faces</button></a>
-                </div>
-                  
-                <div class="holder2">
-                 <a href="/start">
-                  <button type="button" class="cat2 btn btn-success btn-lg shadow-lg">Start</button>
-                 </a>
-                 <a href="/stop">
-                  <button type="button" class="cat2 btn btn-danger  btn-lg shadow-lg">Stop</button>
-                 </a>
-                 <a href="/restart">
-                  <button type="button" class="cat2 btn btn-primary btn-lg shadow-lg ">Restart</button>
-                 </a>
-              </div>
-               <button type="button" class="btn btn-secondary live btn-lg shadow-lg">Logs</button>
-               <a href="/timeline">
-                <button type="button" class="btn btn-secondary live btn-lg shadow-lg ">Timeline</button>
-               </a>
-
-              <div class="holder3">
-                  <div class="msgholder">
-                    
-
-
-
-
-                  </div>
-              </div>
-
-              <div class="loggedas">
-                Login As : <span class="user"> <a href="#usr" style="color:white;">Rafi Rahman</a></span>
-
-              </div>
-                
-            
-        </div>
-
-
-        <div class= "Left">
-
-            <div class="searchBar ">
-              <input type="text" placeholder="Search Person" class="inputs">
-              <button class="btn btn-primary btnn" >
-                <i class="fa fa-search"></i>
-              </button>
-            </div>
-          
-
-
-
-
-
-
-
-
-            <div class="ImgContainer">
-   
-              {% for item , id in imglist %}
-                 
-        
-
-              <div class="card" style="width: 8rem;" onmouseover="Zoomandet(this)" onmouseout="normalImg(this)">
-                <img class="card-img-top cinmg" src="{{ url_for('static', filename='/DB/Saved_imgs/' + item ) }}" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title"></h5>
-                  <h5 class="card-text" style="text-align: center;">{{id}}</h5>
-                </div>
-              </div>
-
-              {% endfor %}
-              
-
-        </div>
+    <div class="Right">
+      <div class="heading shadow">
+        Control Panel 
+        <img class="align-middle" {% if ck %} src="{{ url_for('static', filename='images/green.png') }}" {% else %} src="{{ url_for('static', filename='images/red.png') }}" {% endif %} width="13px" alt="liveimg">
+      </div>
+      <a href="/live">
+        <button type="button" class="btn btn-danger live btn-lg shadow-lg">Live</button>
+      </a>
+      <div class="holder1">
+        <a href="/faces/add"><button type="button" class="cat1 btn btn-primary btn-lg shadow-lg">Add new</button></a>
+        <a href="/faces"><button type="button" class="cat1 btn btn-primary btn-lg shadow-lg">Faces</button></a>
+      </div>
+      <div class="holder2">
+        <a href="/start"><button type="button" class="cat2 btn btn-success btn-lg shadow-lg">Start</button></a>
+        <a href="/stop"><button type="button" class="cat2 btn btn-danger btn-lg shadow-lg">Stop</button></a>
+        <a href="/restart"><button type="button" class="cat2 btn btn-primary btn-lg shadow-lg">Restart</button></a>
+      </div>
+      <button type="button" class="btn btn-secondary live btn-lg shadow-lg">Logs</button>
+      <a href="/timeline"><button type="button" class="btn btn-secondary live btn-lg shadow-lg">Timeline</button></a>
+      <div class="holder3">
+        <div class="msgholder"></div>
+      </div>
+      <div class="loggedas">
+        Login As : <span class="user"><a href="#usr" style="color:white;">Rafi Rahman</a></span>
+      </div>
     </div>
+    <div class="Left">
+      <div class="searchBar">
+        <input type="text" placeholder="Search Person" class="inputs">
+        <button class="btn btn-primary btnn">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
 
+      <div class="ImgContainer">
+        {% for item, id in imglist %}
+        <form action="/home/detele" method="post"  enctype="multipart/form-data">
+        <div class="card" style="width: 8rem;" onmouseover="Zoomandet(this)" onmouseout="normalImg(this)">
+          <img class="card-img-top cinmg" src="{{ url_for('static', filename='/DB/Saved_imgs/' + item ) }}" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+            <h5 class="card-text" style="text-align: center;">{{id}}</h5>
+            <input type="hidden" id="delete_item" value="{{id}}">
+            <input type="submit" class="btn btn-danger btn-sm delete-btn" style="text-decoration: none; color: white; font-weight: bold;" value="Delete"> 
+          </div>
+        </div>
 
-<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+      </form>
 
-
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

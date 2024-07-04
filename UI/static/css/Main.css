@@ -219,7 +219,12 @@
       }
  
 
-
+      .delete-btn {
+        display: block;
+        margin: 10px auto 0; /* Center the button horizontally */
+        width: 80%;
+      }
+      
       
   
   
