@@ -57,7 +57,7 @@ def FD(socketio=""):
     cap = cv2.VideoCapture(0)
     while Status_OF_Running:
 
-        print("Runnoing")
+        # print("Runnoing")
         ret, frame = cap.read()
         if not ret:
             break
@@ -68,8 +68,8 @@ def FD(socketio=""):
             socketio.emit("new_frame",{'image':bfreame})
     
 
-        face_locations = face_recognition.face_locations(frame) #gies multiple faces of frames
-        face_encodings = face_recognition.face_encodings(frame,face_locations) # encode all of them
+        face_locations = face_recognition.face_locations(frame) 
+        face_encodings = face_recognition.face_encodings(frame,face_locations) 
 
         
         if not face_locations:

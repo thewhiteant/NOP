@@ -24,7 +24,7 @@ def GetId():
     h = table.search(query.ID == hash)
     if h or (len(hash)!= 9):
         hash = GetId()
-    table.insert({'ID':hash,"Time":time})
+    table.insert({'ID':hash,"Time":time,'userid':-1})
     return hash
 
 
@@ -47,6 +47,10 @@ def GetIdGenNotSvae():
 def saveId(hash):
     dt = datetime.datetime.today()
     time = dt.strftime("%I:%M:%S")
-    table.insert({'ID':hash,"Time":time})
+    table.insert({'ID':hash,"Time":time,'userid':-1})
 
 
+
+def UpdateData(id, data):
+    table.update({'userid': id}, query.ID == data)
+    

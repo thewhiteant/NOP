@@ -7,7 +7,7 @@ from werkzeug.datastructures import FileStorage
 from flask_socketio import SocketIO
 from helpers import idgenerator
 from Dsystem import Vision
-from helpers.db_manager import db, MainTable  # Import db and MainTable from database.py
+from helpers.db_manager import db, MainTable,get_user  # Import db and MainTable from database.py
 
 current_directory = os.getcwd()
 Saved_location = os.path.join(current_directory, 'UI/static/DB/Saved_imgs')
@@ -25,6 +25,7 @@ def UI():
     socketio = SocketIO(app)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Main.db'
+    app.config['DEBUG'] = True 
     db.init_app(app)  
 
     with app.app_context():
@@ -37,7 +38,8 @@ def UI():
         for filename in os.listdir(Saved_location):
             if filename not in un_all_images:
                 un_all_images.append(filename)
-                un_face_names.append(os.path.splitext(filename)[0])
+                un_face_names.append(get_user(os.path.splitext(filename)[0]))
+                print(filename)
         final_arr = zip(un_all_images, un_face_names)
         final_arr = list(final_arr)
         return render_template('home.html', imglist=final_arr, ck=Vision.Status_OF_Running)
@@ -76,7 +78,7 @@ def UI():
         for filename in os.listdir(unknownLocations):
             if filename not in un_all_images:
                 un_all_images.append(filename)
-                un_face_names.append(os.path.splitext(filename)[0])
+                un_face_names.append(get_user(os.path.splitext(filename)[0]))
         final_arr = zip(un_all_images, un_face_names)
         final_arr = list(final_arr)
         return render_template('unknown.html', imglist=final_arr)
@@ -114,14 +116,14 @@ def UI():
             addrs = request.form["Address"]
             idd = request.form["Id"]
             extrea = request.form["note"]
-
             if imge and myname:
                 chk = MainTable.query.filter_by(UIDs=idd).first()
                 if not chk:
                     # TODO: In future face recognition function called for check face
                     imge.save(os.path.join(Saved_location, f"{idd}.jpg"))
                     try:
-                        new_iden = MainTable(UIDs=idd, Name=myname, Email=emaill, Phone=phone, Adress=addrs, Extra=extrea)
+                        new_iden = MainTable(UIDs=idd, Name=myname, Email=emaill, Phone=phone, Address=addrs, Extra=extrea)
+                        # idgenerator.UpdateData(new_iden.id(),idd)
                         db.session.add(new_iden)
                         db.session.commit()
                     except Exception as e:
@@ -143,7 +145,8 @@ def UI():
             chk = MainTable.query.filter_by(UIDs=idd).first()
             if not chk:
                 # TODO: In future face recognition function called for check face
-                new_iden = MainTable(UIDs=idd, Name=myname, Email=emaill, Phone=phone, Adress=addrs, Extra=extrea)
+                new_iden = MainTable(UIDs=idd, Name=myname, Email=emaill, Phone=phone, Address=addrs, Extra=extrea)
+                # idgenerator.UpdateData(new_iden.id(),idd)
                 db.session.add(new_iden)
                 try:
                     db.session.commit()
@@ -159,6 +162,12 @@ def UI():
     @socketio.on('disconnect')
     def handle_disconnect():
         print('Client disconnected')
+
+
+
+    
+
+
 
     Face_recog = threading.Thread(target=Vision.FD, args=(socketio,))
     Face_recog.daemon = True
