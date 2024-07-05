@@ -17,17 +17,17 @@ def Writelog(data):
         time = dt.strftime("%I:%M")
         sec = dt.strftime("%S")
         table = db.table(str(date))
-        data = data+" "+sec
+        # table = db.table("das")
+        data_entry  = {'id':data,'sec':sec}
         srch = table.search(query.Time == time)
         if not srch:
-                table.insert({'Time':time,'data':[data]})
-        srch = table.search(query.Time == time)[0]
-        if srch['data'][-1][-2:] != str(sec):
-                d = srch['data']
-                d.append(data)
-                table.update({'data': d}, query.Time == time)
-
-        
+                table.insert({'Time': time, 'data': [data_entry]})
+        else:
+                srch = srch[0] 
+                if srch['data'][-1]['sec'] != str(sec):
+                        d = srch['data']
+                        d.append(data_entry)
+                        table.update({'data': d}, query.Time == time)      
 
 
 def Searchlog(day, tm=""):
@@ -45,3 +45,16 @@ def Searchlog(day, tm=""):
 def Full_log_read():
         print(db.all())
 
+
+
+
+
+
+
+ # if not srch:
+        #         table.insert({'Time':time,'data':[data_entry]})
+        # srch = table.search(query.Time == time)[0]
+        # if srch['data'][-1][-2:] != str(sec):
+        #         d = srch['data']
+        #         d.append(data)
+        #         table.update({'data': d}, query.Time == time)

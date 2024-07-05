@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,118 +10,41 @@
 <body>
 
     <div class="search">
-        <form action="#">
-            <input type="text" placeholder="Query"> <div class="circile">/</div> <input type="date">
+        <form action="/timeline">
+            <input type="time" placeholder="Query"> <div class="circile">/</div> <input type="date">
             <br>
             <input type="submit" value="Search">
         </form>
     </div>
     
     <div class="container">
-
-        <div class="content">
-            <h1>Time - <span> 12/03/2024</span></h1>
-            <hr>
-            <div class="imgbox">
-                
-                <div class="card">
-                    <img src="tbg.jpg" alt="A">
-                    <span> #3h4532ikuj</span>
-                </div>  
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1568292342316-60aa3d36f4b3?q=80&w=1037&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="A">
-                    <span> #3h4532ikuj</span>
-                </div>  
-
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1498550744921-75f79806b8a7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
-                    <span> #3h4532ikuj</span>
-                </div>  
+        {% for date_key, entries in data.items() %}
+        <div class="father_content">
+            <h5 class="headfathercon">Day: {{ date_key }} </h5>
+            <div class="content">
+                {% for entry_key, entry_data in entries.items() %}
+                <h1>Time - <span>{{ entry_data.Time }}</span></h1>
+                <hr>
+                <div class="imgbox">
+                    {% for item in entry_data.data %}
+                          
+                <form action="/faces/add" method="POST" onclick="formSubmit(this);"   enctype="multipart/form-data"> 
+                    <div class="card">
+                        <img src="{{ url_for('static', filename='DB/imgs/' + item.id + '.jpg') }}" alt="{{item.id}}">
+                        <span style="font-weight: bold;">#{{ get_user(item.id) }}</span>
+                        <span><span style="color:green; font-weight: bold;">{{ entry_data.Time }}</span>:<span style="color:red;font-weight: bold">{{ item.sec }}</span></span>
+                    </div>
+                    <input type="hidden"  name="Id" value="{{item.id}}">
+                </form>
+                    {% endfor %}
+                </div>
+                {% endfor %}
             </div>
         </div>
-
-
-        <div class="content">
-            <h1>Time - <span> 12/03/2024</span></h1>
-            <hr>
-            <div class="imgbox">
-                
-                <div class="card">
-                    <img src="tbg.jpg" alt="A">
-                    <span> #3h4532ikuj</span>
-                </div>  
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1568292342316-60aa3d36f4b3?q=80&w=1037&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="A">
-                    <span> #3h4532ikuj</span>
-                </div>  
-
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1498550744921-75f79806b8a7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
-                    <span> #3h4532ikuj</span>
-                </div>  
-            </div>
-        </div>
-
-
-        <div class="content">
-            <h1>Time - <span> 12/03/2024</span></h1>
-            <hr>
-            <div class="imgbox">
-                
-                <div class="card">
-                    <img src="tbg.jpg" alt="A">
-                    <span> #3h4532ikuj</span>
-                </div>  
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1568292342316-60aa3d36f4b3?q=80&w=1037&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="A">
-                    <span> #3h4532ikuj</span>
-                </div>  
-
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1498550744921-75f79806b8a7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
-                    <span> #3h4532ikuj</span>
-                </div>  
-            </div>
-        </div>
-
-
-        <div class="content">
-            <h1>Time - <span> 12/03/2024</span></h1>
-            <hr>
-            <div class="imgbox">
-                
-                <div class="card">
-                    <img src="tbg.jpg" alt="A">
-                    <span> #3h4532ikuj</span>
-                </div>  
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1568292342316-60aa3d36f4b3?q=80&w=1037&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="A">
-                    <span> #3h4532ikuj</span>
-                </div>  
-
-
-                <div class="card">
-                    <img src="https://images.unsplash.com/photo-1498550744921-75f79806b8a7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
-                    <span> #3h4532ikuj</span>
-                </div>  
-            </div>
-        </div>
-
-
-
-
-
-
-
+        {% endfor %}
     </div>
     
 
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

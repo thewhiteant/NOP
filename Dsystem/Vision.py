@@ -37,7 +37,6 @@ for filename in reference_faces:
                 Face_Encoding = face_recognition.face_encodings(reference_face)[0]
                 faces.append(Face_Encoding)
                 face_names.append(os.path.splitext(filename)[0])
-                print(len(filename))
             except:
                 print(filename)
 
@@ -87,13 +86,17 @@ def FD(socketio=""):
                     print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Opp's Not A Face")
                     continue
 
-                name = "Unknown"
+                # name = "Unknown"
 
                 if True in matches:
                         matched_indices = [i for i, match in enumerate(matches) if match]
-                        name = ', '.join([face_names[i] for i in matched_indices])
-                        print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] ID:{name} Hi ")
-                        Writelog(name)
+                        # name = ', '.join([face_names[i] for i in matched_indices])
+
+                        for i in matched_indices:
+                            Writelog(face_names[i])                          
+                            print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] ID:{face_names[i]} Hi ")
+                            
+                            
                 else:
                             unknown_face = frame[top:bottom,left:right]
                             uname = GetId()

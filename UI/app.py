@@ -7,7 +7,8 @@ from werkzeug.datastructures import FileStorage
 from flask_socketio import SocketIO
 from helpers import idgenerator
 from Dsystem import Vision
-from helpers.db_manager import db, MainTable,get_user,delete_user_by_id # Import db and MainTable from database.py
+from helpers.db_manager import db, MainTable,get_user,delete_user_by_uid # Import db and MainTable from database.py
+import json
 
 current_directory = os.getcwd()
 Saved_location = os.path.join(current_directory, 'UI/static/DB/Saved_imgs')
@@ -25,7 +26,7 @@ def UI():
     socketio = SocketIO(app)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Main.db'
-    # app.config['DEBUG'] = True 
+    app.config['DEBUG'] = True 
     db.init_app(app)  
 
     with app.app_context():
@@ -39,7 +40,6 @@ def UI():
             if filename not in un_all_images:
                 un_all_images.append(filename)
                 un_face_names.append(get_user(os.path.splitext(filename)[0]))
-                print(filename)
         final_arr = zip(un_all_images, un_face_names)
         final_arr = list(final_arr)
         return render_template('home.html', imglist=final_arr, ck=Vision.Status_OF_Running)
@@ -71,7 +71,9 @@ def UI():
 
     @app.route('/timeline')
     def Timeline():
-        return render_template('timeline.html')
+        with open('UI/static/DB/Logs/log.json', 'r') as f:
+             data = json.load(f)
+        return render_template('timeline.html',data=data,get_user=get_user)
 
     @app.route('/faces')
     def Unknown_Face():
@@ -99,12 +101,15 @@ def UI():
         # TODO: Dangerous Lines
         pass
 
-    @app.route("/home/detele", methods=['POST', 'GET'])
+    @app.route("/delete", methods=['POST', 'GET'])
     def home_delete_item():
         if request.method == "POST":
-            idd = request.form["delete_item"]
-            delete_user_by_id(idd)
-            return redirect(url_for('home'))
+            uid = request.form["delete_item"]
+            delete_user_by_uid(uid[:-4])
+            file_path = os.path.join(Saved_location, f"{uid}")
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        return redirect(url_for('home'))
 
 
     @app.route("/faces/add", methods=['POST', 'GET'])
@@ -164,6 +169,11 @@ def UI():
                     print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Database Commit Error:", e)
                 return redirect(url_for("home"))
 
+
+
+    
+
+
     @socketio.on('connect')
     def handle_connect():
         print('Client connected')
@@ -173,8 +183,10 @@ def UI():
         print('Client disconnected')
 
 
+
     Face_recog = threading.Thread(target=Vision.FD, args=(socketio,))
     Face_recog.daemon = True
     Face_recog.start()
 
-    socketio.run(app)
+    # socketio.run(app)
+    socketio.run(app, host='0.0.0.0', port=5000)

@@ -39,7 +39,6 @@ body{
     justify-content: center;
     align-items: center;
     height: 20vh;
-
 }
 
 .search input{
@@ -68,7 +67,7 @@ body{
 }
 
 .search input[type="submit"]{
-    width: 377;
+    width: 377px;
     height: 35px;
     border-radius: 2px;
 
@@ -137,4 +136,20 @@ body{
     
     width: 100%;
     height: auto;
+}
+
+.father_content{
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    background-color: lightgrey;
+    
+}
+.headfathercon{
+    font-size: 25px;
+    color: white;
+    font-weight: bold;
 }

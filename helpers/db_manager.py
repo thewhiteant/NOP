@@ -66,9 +66,8 @@ def get_user(user_uid):
 def get_all_data():
     return MainTable.query.all()
 
-def delete_user_by_id(user_id):
-    user = MainTable.query.get(user_id)
+def delete_user_by_uid(user_id):
+    user = MainTable.query.filter_by(UIDs=user_id).first()
     if user:
         db.session.delete(user)
         db.session.commit()
-    

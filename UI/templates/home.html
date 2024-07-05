@@ -47,18 +47,18 @@
 
       <div class="ImgContainer">
         {% for item, id in imglist %}
-        <form action="/home/detele" method="post"  enctype="multipart/form-data">
-        <div class="card" style="width: 8rem;" onmouseover="Zoomandet(this)" onmouseout="normalImg(this)">
-          <img class="card-img-top cinmg" src="{{ url_for('static', filename='/DB/Saved_imgs/' + item ) }}" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title"></h5>
-            <h5 class="card-text" style="text-align: center;">{{id}}</h5>
-            <input type="hidden" id="delete_item" value="{{id}}">
-            <input type="submit" class="btn btn-danger btn-sm delete-btn" style="text-decoration: none; color: white; font-weight: bold;" value="Delete"> 
+        <form action="/delete" method="POST" enctype="multipart/form-data">
+          <div class="card" style="width: 8rem;" onmouseover="Zoomandet(this)" onmouseout="normalImg(this)">
+              <img class="card-img-top cinmg" src="{{ url_for('static', filename='/DB/Saved_imgs/' + item ) }}" alt="Card image cap">
+              <div class="card-body">
+                  <h5 class="card-title"></h5>
+                  <h5 class="card-text" style="text-align: center;">{{id}}</h5>
+                  <input type="hidden" id="delete_item" name="delete_item" value="{{item}}">
+                  <input type="submit" class="btn btn-danger btn-sm delete-btn" style="text-decoration: none; color: white; font-weight: bold;" value="Delete"> 
+              </div>
           </div>
-        </div>
-
       </form>
+      
 
         {% endfor %}
       </div>
