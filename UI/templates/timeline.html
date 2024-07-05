@@ -10,17 +10,17 @@
 <body>
 
     <div class="search">
-        <form action="/timeline">
-            <input type="time" placeholder="Query"> <div class="circile">/</div> <input type="date">
+        <div>
+            <input type="text" placeholder="Query" id="quar"> <div class="circile">/</div> <input type="date" id="daate">
             <br>
-            <input type="submit" value="Search">
-        </form>
+            <input type="submit" value="Search" onclick="search();">
+        </div>
     </div>
     
     <div class="container">
         {% for date_key, entries in data.items() %}
         <div class="father_content">
-            <h5 class="headfathercon">Day: {{ date_key }} </h5>
+            <h5 class="headfathercon">{{ date_key }}</h5>
             <div class="content">
                 {% for entry_key, entry_data in entries.items() %}
                 <h1>Time - <span>{{ entry_data.Time }}</span></h1>
@@ -31,7 +31,7 @@
                 <form action="/faces/add" method="POST" onclick="formSubmit(this);"   enctype="multipart/form-data"> 
                     <div class="card">
                         <img src="{{ url_for('static', filename='DB/imgs/' + item.id + '.jpg') }}" alt="{{item.id}}">
-                        <span style="font-weight: bold;">#{{ get_user(item.id) }}</span>
+                        <span style="font-weight: bold;" class="namess">#{{ get_user(item.id) }}</span>
                         <span><span style="color:green; font-weight: bold;">{{ entry_data.Time }}</span>:<span style="color:red;font-weight: bold">{{ item.sec }}</span></span>
                     </div>
                     <input type="hidden"  name="Id" value="{{item.id}}">
@@ -44,7 +44,7 @@
         {% endfor %}
     </div>
     
+    <script src="{{ url_for('static', filename='js/timeline.js') }}"></script>
 
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
 </html>

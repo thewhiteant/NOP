@@ -9,7 +9,7 @@ from time import sleep
 
 
 # face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Face_Recognition File Check.")
+# print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Face_Recognition File Check.")
 
 Status_OF_Running = True
 
@@ -28,7 +28,7 @@ for filename in os.listdir(reference_folder):
             reference_face_names.append(os.path.splitext(filename)[0])
 
 
-print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Loading all images Check")
+# print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Loading all images Check")
 faces = [] 
 face_names = []
 for filename in reference_faces:
@@ -38,12 +38,13 @@ for filename in reference_faces:
                 faces.append(Face_Encoding)
                 face_names.append(os.path.splitext(filename)[0])
             except:
-                print(filename)
+                # print(filename)
+                pass
 
 
 
 
-print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Images ready For recognition Check")
+# print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Images ready For recognition Check")
 
 
 
@@ -51,7 +52,7 @@ def FD(socketio=""):
     
     global Status_OF_Running
     if not Status_OF_Running  : return
-    print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Face_Recognition Fucntion Check")
+    # print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Face_Recognition Fucntion Check")
     
     cap = cv2.VideoCapture(0)
     while Status_OF_Running:
@@ -83,7 +84,7 @@ def FD(socketio=""):
                     matches = face_recognition.compare_faces(faces, FE)
          
                 except:
-                    print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Opp's Not A Face")
+                    # print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Opp's Not A Face")
                     continue
 
                 # name = "Unknown"
@@ -94,7 +95,7 @@ def FD(socketio=""):
 
                         for i in matched_indices:
                             Writelog(face_names[i])                          
-                            print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] ID:{face_names[i]} Hi ")
+                            # print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] ID:{face_names[i]} Hi ")
                             
                             
                 else:
@@ -113,8 +114,9 @@ def FD(socketio=""):
                                 reference_face_names.append(uname)
                                 faces.append(unknown_face_encodings)
                                 face_names.append(uname)
+                                Writelog(uname)   
                             except:
-                                print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Uknown face problem")
+                                # print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Uknown face problem")
                                 continue
         
         sleep(0.05)  

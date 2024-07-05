@@ -21,12 +21,12 @@ if not os.path.exists(unknownLocations):
     os.makedirs(unknownLocations)
 
 def UI():
-    print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] UI Check.")
+    # print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] UI Check.")
     app = Flask(__name__)
     socketio = SocketIO(app)
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///Main.db'
-    app.config['DEBUG'] = True 
+    # app.config['DEBUG'] = True 
     db.init_app(app)  
 
     with app.app_context():
