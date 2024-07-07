@@ -13,4 +13,6 @@ If Dlib occurs problem
 I have dlibs in Backupresources
 
 
+Thank You 
 
+https://github.com/thewhiteant/NOP/blob/main/Achivements_of_This_Project/IMG_20240706_164454.jpg
