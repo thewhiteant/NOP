@@ -7,11 +7,10 @@ A National Steam olympiad
 ```  
   pip install -r requirements.txt
   python Main.py
-
 ```
 
-if Dlib occurs problem
-i have dlibs in Backupresources
+If Dlib occurs problem
+I have dlibs in Backupresources
 
 
 
