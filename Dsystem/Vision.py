@@ -102,9 +102,11 @@ def FD(socketio=""):
                             unknown_face = frame[top:bottom,left:right]
                             uname = GetId()
                             unknown_face_path = os.path.join(reference_folder, uname)
+                           
                             try:
                         
                                 cv2.imwrite(unknown_face_path+".jpg", unknown_face)
+                                Writelog(uname)  
                             except:
                                   continue
                                   pass
@@ -114,7 +116,7 @@ def FD(socketio=""):
                                 reference_face_names.append(uname)
                                 faces.append(unknown_face_encodings)
                                 face_names.append(uname)
-                                Writelog(uname)   
+                             
                             except:
                                 # print(f"[{datetime.datetime.now().strftime('%H:%M:%S')}] Uknown face problem")
                                 continue
