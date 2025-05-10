@@ -1,8 +1,8 @@
 from tinydb import TinyDB,Query
 import datetime
-import random
 import string
 import os
+import secrets
 
 current_directory = os.getcwd()
 reference_folder = "UI/static/DB/logs/ids.json"
@@ -19,7 +19,7 @@ def GetId():
     characters = string.ascii_letters + string.digits
     code_length = 4
     hulfhash = chr(65+(int(res[0:2])%26 )) + chr(65+(int(res[2:4]))%26 ) + chr(48+(int(res[4:6])%9)) + chr(65+(int(res[6:8]))%26 ) + chr(65+(int(res[8:10]))%26 )
-    random_code = "".join(random.choice(characters) for _ in range(code_length))
+    random_code = "".join(secrets.choice(characters) for _ in range(code_length))
     hash = hulfhash+random_code
     h = table.search(query.ID == hash)
     if h or (len(hash)!= 9):
@@ -36,7 +36,7 @@ def GetIdGenNotSvae():
     characters = string.ascii_letters + string.digits
     code_length = 4
     hulfhash = chr(65+(int(res[0:2])%26 )) + chr(65+(int(res[2:4]))%26 ) + chr(48+(int(res[4:6])%9)) + chr(65+(int(res[6:8]))%26 ) + chr(65+(int(res[8:10]))%26 )
-    random_code = "".join(random.choice(characters) for _ in range(code_length))
+    random_code = "".join(secrets.choice(characters) for _ in range(code_length))
     hash = hulfhash+random_code
     h = table.search(query.ID == hash)
     if h or (len(hash)!= 9):
